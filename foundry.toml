@@ -1,0 +1,25 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib']
+solc = '0.8.26'
+evm_version = 'cancun'  # Required for Uniswap v4
+optimizer = true
+optimizer_runs = 1000000
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = true
+
+# Remappings
+remappings = [
+    '@openzeppelin/=lib/openzeppelin-contracts/',
+    '@uniswap/v4-core/=lib/v4-core/',
+    'v4-core/=lib/v4-core/',
+    'v4-periphery/=lib/v4-periphery/',
+    'solmate/=lib/solmate/',
+    'forge-std/=lib/forge-std/src/'
+]
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
