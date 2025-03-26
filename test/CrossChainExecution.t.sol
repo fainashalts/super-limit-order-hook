@@ -13,7 +13,7 @@ import {BalanceDelta, toBalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
 import {PoolId, PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
 import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
+import {MockERC20} from "../lib/solmate/src/test/utils/mocks/MockERC20.sol";
 import {HookMiner} from "v4-periphery/src/utils/HookMiner.sol";
 
 import {MockCrossChainLimitOrderHook} from "./mocks/MockCrossChainLimitOrderHook.sol";

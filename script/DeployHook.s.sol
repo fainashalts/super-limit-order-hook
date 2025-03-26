@@ -3,10 +3,10 @@ pragma solidity ^0.8.19;
 
 import {Script, console} from "forge-std/Script.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
-import {CrossChainLimitOrderHook} from "../src/CrossChainLimitOrderHook.sol";
-import {OrderBook} from "../src/OrderBook.sol";
-import {TokenCompatibilityChecker} from "../src/TokenCompatibilityChecker.sol";
-import {CrossChainLimitOrderHookFactory} from "../src/CrossChainLimitOrderHookFactory.sol";
+import {CrossChainLimitOrderHook} from "src/CrossChainLimitOrderHook.sol";
+import {OrderBook} from "src/OrderBook.sol";
+import {TokenCompatibilityChecker} from "src/TokenCompatibilityChecker.sol";
+import {CrossChainLimitOrderHookFactory} from "src/CrossChainLimitOrderHookFactory.sol";
 
 /**
  * @title DeployHook

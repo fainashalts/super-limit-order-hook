@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+import {ISemver} from "src/interfaces/ISemver.sol";
+
 /**
  * @title ICrossL2Inbox
- * @notice Interface for the cross-layer-2 message inbox
+ * @notice Interface for cross-layer-2 message inbox
  */
-interface ICrossL2Inbox {
+interface ICrossL2Inbox is ISemver {
     /**
      * @notice Identifier struct for cross-chain messages
      */
@@ -69,13 +71,10 @@ interface ICrossL2Inbox {
      * @param _id The identifier of the message
      * @param _msgHash The hash of the message
      */
-    function validateMessage(
-        Identifier calldata _id,
-        bytes32 _msgHash
-    ) external;
+    function validateMessage(Identifier calldata _id, bytes32 _msgHash) external;
     
     /**
-     * @notice Emitted when a message is being executed
+     * @notice Emitted when a message is executed
      * @param msgHash The hash of the message
      * @param id The identifier of the message
      */

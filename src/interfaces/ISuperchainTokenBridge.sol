@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {ISemver} from "./ISemver.sol";
+import {ISemver} from "src/interfaces/ISemver.sol";
 
 /**
  * @title ISuperchainTokenBridge

@@ -2,11 +2,11 @@
 pragma solidity ^0.8.19;
 
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
+import {Hooks} from "v4-core/src/libraries/Hooks.sol";
 import {CrossChainLimitOrderHook} from "./CrossChainLimitOrderHook.sol";
 import {OrderBook} from "./OrderBook.sol";
 import {TokenCompatibilityChecker} from "./TokenCompatibilityChecker.sol";
-import {HookMiner} from "../lib/v4-periphery/src/utils/HookMiner.sol";
-import {Hooks} from "v4-core/src/libraries/Hooks.sol";
+import {HookMiner} from "v4-periphery/src/utils/HookMiner.sol";
 
 /**
  * @title CrossChainLimitOrderHookFactory
@@ -38,45 +38,42 @@ contract CrossChainLimitOrderHookFactory {
         OrderBook orderBook,
         TokenCompatibilityChecker tokenChecker
     ) {
-        // Deploy the dependencies first
+        // Deploy OrderBook
         orderBook = new OrderBook();
-        tokenChecker = new TokenCompatibilityChecker();
         
-        // Calculate the flags for the hook (beforeSwap and afterSwap)
+        // Calculate hook address with correct flags
         uint160 flags = uint160(Hooks.BEFORE_SWAP_FLAG | Hooks.AFTER_SWAP_FLAG);
         
-        // Get the creation code and constructor arguments
-        bytes memory creationCode = type(CrossChainLimitOrderHook).creationCode;
-        bytes memory constructorArgs = abi.encode(
-            poolManager,
-            address(orderBook),
-            address(tokenChecker),
-            inboxAddress,
-            bridgeAddress
-        );
-        
-        // Find a valid salt for the hook address
+        // Find hook address with correct flags
         (address hookAddress, bytes32 salt) = HookMiner.find(
             address(this),
             flags,
-            creationCode,
-            constructorArgs
+            type(CrossChainLimitOrderHook).creationCode,
+            abi.encode(
+                poolManager,
+                address(orderBook),
+                address(0), // tokenChecker will be deployed later
+                inboxAddress,
+                bridgeAddress
+            )
         );
-        
-        // Deploy the hook with the calculated salt
+
+        // Deploy hook with found salt
         hook = new CrossChainLimitOrderHook{salt: salt}(
             poolManager,
             address(orderBook),
-            address(tokenChecker),
+            address(0), // tokenChecker will be deployed later
             inboxAddress,
             bridgeAddress
         );
+
+        require(address(hook) == hookAddress, "Hook address mismatch");
         
-        // Verify that the hook was deployed to the expected address
-        require(address(hook) == hookAddress, "Hook deployed to unexpected address");
-        
-        // Set the hook address in the OrderBook
+        // Set hook in OrderBook
         orderBook.setHook(address(hook));
+        
+        // Deploy TokenCompatibilityChecker from hook's address
+        tokenChecker = new TokenCompatibilityChecker();
         
         emit HookDeployed(
             address(hook),

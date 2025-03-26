@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {MockBaseHook} from "../utils/MockBaseHook.sol";
+import {MockBaseHook} from "test/utils/MockBaseHook.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {Hooks} from "v4-core/src/libraries/Hooks.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";

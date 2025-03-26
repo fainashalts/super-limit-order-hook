@@ -2,9 +2,9 @@
 pragma solidity ^0.8.19;
 
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
-import {IERC7802} from "./interfaces/IERC7802.sol";
-import {ISuperchainTokenBridge} from "./interfaces/ISuperchainTokenBridge.sol";
-import {PredeployAddresses} from "./libraries/PredeployAddresses.sol";
+import {IERC7802} from "src/interfaces/IERC7802.sol";
+import {ISuperchainTokenBridge} from "src/interfaces/ISuperchainTokenBridge.sol";
+import {PredeployAddresses} from "src/libraries/PredeployAddresses.sol";
 
 /**
  * @title TokenCompatibilityChecker

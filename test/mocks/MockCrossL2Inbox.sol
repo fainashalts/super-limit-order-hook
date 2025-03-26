@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {ICrossL2Inbox} from "../../interfaces/ICrossL2Inbox.sol";
+import {ICrossL2Inbox} from "../../src/interfaces/ICrossL2Inbox.sol";
 
 /**
  * @title MockCrossL2Inbox

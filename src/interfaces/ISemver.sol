@@ -7,8 +7,8 @@ pragma solidity ^0.8.19;
  */
 interface ISemver {
     /**
-     * @notice Gets the semantic version
-     * @return The semantic version string
+     * @notice Gets the version string
+     * @return The version string
      */
     function version() external view returns (string memory);
 } 
