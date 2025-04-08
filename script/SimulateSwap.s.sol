@@ -19,7 +19,7 @@ contract SimulateSwap is Script {
         try vm.envUint("PRIVATE_KEY") returns (uint256 pk) {
             deployerPrivateKey = pk;
         } catch {
-            // If environment variable is not set, use the default Anvil private key
+            // If environment variable is not set, use the default Supersim private key
             deployerPrivateKey = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
         }
         

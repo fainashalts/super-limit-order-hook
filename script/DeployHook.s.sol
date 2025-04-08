@@ -21,15 +21,15 @@ contract DeployHook is Script {
     // Pool manager address (different per network)
     address public constant POOL_MANAGER_GOERLI = 0x3A9D48AB9751398BbFa63ad67599Bb04e4BdF98b;
     address public constant POOL_MANAGER_SEPOLIA = 0x64255ed21366DB43d89736EE48928b890A84E2Cb;
-    address public constant POOL_MANAGER_ANVIL = 0x0227f2B71F28E1aa1C4D39181A02aF3DEE6CF470; // Local Anvil instance
+    address public constant POOL_MANAGER_SUPERSIM = 0x0227f2B71F28E1aa1C4D39181A02aF3DEE6CF470; // Local Supersim instance
     
     // Cross-chain infrastructure addresses (different per network)
     address public constant CROSS_L2_INBOX_GOERLI = 0x0000000000000000000000000000000000000000; // Replace with actual address
     address public constant CROSS_L2_INBOX_SEPOLIA = 0x0000000000000000000000000000000000000000; // Replace with actual address
-    address public constant CROSS_L2_INBOX_ANVIL = 0x0000000000000000000000000000000000000000; // Mock address for local testing
+    address public constant CROSS_L2_INBOX_SUPERSIM = 0x0000000000000000000000000000000000000000; // Mock address for local testing
     address public constant SUPERCHAIN_TOKEN_BRIDGE_GOERLI = 0x0000000000000000000000000000000000000000; // Replace with actual address
     address public constant SUPERCHAIN_TOKEN_BRIDGE_SEPOLIA = 0x0000000000000000000000000000000000000000; // Replace with actual address
-    address public constant SUPERCHAIN_TOKEN_BRIDGE_ANVIL = 0x0000000000000000000000000000000000000000; // Mock address for local testing
+    address public constant SUPERCHAIN_TOKEN_BRIDGE_SUPERSIM = 0x0000000000000000000000000000000000000000; // Mock address for local testing
     
     function run() external {
         // Get the private key from the command-line argument
@@ -38,7 +38,7 @@ contract DeployHook is Script {
         try vm.envUint("PRIVATE_KEY") returns (uint256 pk) {
             deployerPrivateKey = pk;
         } catch {
-            // If environment variable is not set, use the default Anvil private key
+            // If environment variable is not set, use the default Supersim private key
             deployerPrivateKey = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
         }
         
@@ -63,10 +63,10 @@ contract DeployHook is Script {
             inboxAddress = CROSS_L2_INBOX_SEPOLIA;
             bridgeAddress = SUPERCHAIN_TOKEN_BRIDGE_SEPOLIA;
         } else if (block.chainid == 31337 || block.chainid == 10) {
-            // Local Anvil instance (chainid 31337 or 10)
-            poolManagerAddress = POOL_MANAGER_ANVIL;
-            inboxAddress = CROSS_L2_INBOX_ANVIL;
-            bridgeAddress = SUPERCHAIN_TOKEN_BRIDGE_ANVIL;
+            // Local Supersim instance (chainid 31337 or 10)
+            poolManagerAddress = POOL_MANAGER_SUPERSIM;
+            inboxAddress = CROSS_L2_INBOX_SUPERSIM;
+            bridgeAddress = SUPERCHAIN_TOKEN_BRIDGE_SUPERSIM;
         } else {
             revert("Unsupported network");
         }

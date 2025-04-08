@@ -59,6 +59,9 @@ The hook integrates with the Optimism Superchain interop protocol in several way
 - Foundry
 - Node.js
 - Access to a Supersim instance (for testing)
+  - [Supersim](https://github.com/ethereum-optimism/supersim) is a local multi-L2 development environment that simulates the Optimism Superchain ecosystem
+  - Install via npm: `npm install -g @eth-optimism/supersim`
+  - It enables testing cross-chain interactions locally
 
 ## Installation
 
@@ -120,14 +123,27 @@ function createLimitOrder(
 
 ### Testing
 
-1. Start a local test environment:
+1. Start a local test environment with Supersim:
 ```bash
-anvil
+# Install Supersim if not already installed
+npm install -g @eth-optimism/supersim
+
+# Run Supersim with autorelay enabled for cross-chain testing
+supersim --interop.autorelay
 ```
 
 2. Run the test script:
 ```bash
 forge script script/SimulateSwap.s.sol:SimulateSwap --rpc-url http://127.0.0.1:9545 --broadcast
+```
+
+3. For cross-chain testing:
+```bash
+# Chain 901 (first OP chain in Supersim)
+forge script script/DeployHook.s.sol:DeployHook --rpc-url http://127.0.0.1:9545 --broadcast
+
+# Chain 902 (second OP chain in Supersim)
+forge script script/DeployHook.s.sol:DeployHook --rpc-url http://127.0.0.1:9546 --broadcast
 ```
 
 ## How It Works
@@ -192,6 +208,38 @@ function createCrossChainArbitrageOrder(
     );
 }
 ```
+
+### Testing Cross-Chain Limit Orders with Supersim
+
+You can use Supersim to test cross-chain limit orders locally:
+
+1. Start Supersim with multiple chains and enable auto-relaying:
+```bash
+supersim --interop.autorelay
+```
+
+2. Deploy the hook contracts on both chains:
+```bash
+# Deploy to Chain 901
+forge script script/DeployHook.s.sol:DeployHook --rpc-url http://127.0.0.1:9545 --broadcast
+
+# Deploy to Chain 902 
+forge script script/DeployHook.s.sol:DeployHook --rpc-url http://127.0.0.1:9546 --broadcast
+```
+
+3. Mint test SuperchainERC20 tokens:
+```bash
+# Using cast to mint tokens on Chain 901
+cast send 0x420beeF000000000000000000000000000000001 "mint(address,uint256)" YOUR_ADDRESS 1000000000000000000 --rpc-url http://127.0.0.1:9545 --private-key YOUR_PRIVATE_KEY
+```
+
+4. Test cross-chain limit order:
+```bash
+# Create a limit order on Chain 901 targeting Chain 902
+# This could be done through your own test script or UI
+```
+
+Supersim's auto-relay feature will automatically handle the message passing between chains.
 
 ### Example Scenario: USDC/USDT Arbitrage
 
